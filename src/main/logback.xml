@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true">
+    <statusListener class="ch.qos.logback.core.status.NopStatusListener" />
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <statusListener class="ch.qos.logback.core.status.NopStatusListener" />
+        <target>System.out</target>
+        <encoder>
+            <charset>UTF-8</charset>
+            <!-- DONT USE THIS FORMATTER FOR LIVE LOGGING THE %line LINE NUMBER OUTPUTTER IS SLOW -->
+            <pattern>%date{HH:mm:ss.SSS} [%c{0}] %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>papka.log.%d{yyyy-MM-dd}</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/var/log/papka24/papka.log.%d{yyyyMMdd}</fileNamePattern>
+        </rollingPolicy>
+        <prudent>true</prudent>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%date{HH:mm:ss.SSS} [%c{0}] %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE" />
+    </root>
+</configuration>
