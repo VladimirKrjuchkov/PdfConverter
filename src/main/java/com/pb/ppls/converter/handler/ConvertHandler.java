@@ -44,7 +44,7 @@ public class ConvertHandler implements HttpHandler {
         this.logger.info("Соединение принято от {}.", realIP == null ? "неизвестного ip" : realIP);
         long startTime = System.currentTimeMillis();
         if("GET".equals(t.getRequestMethod())){
-            this.logger.error("Проверка работоспособности.");
+            this.logger.info("Проверка работоспособности.");
             this.throwResponse(t, 200, (String)"Health check.", startTime);
         }
 
