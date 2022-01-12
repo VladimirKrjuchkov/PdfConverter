@@ -41,9 +41,12 @@ public class ConvertHandler implements HttpHandler {
         } catch (Exception var24) {
             this.logger.warn("error working with MDC:{}", var24);
         }
-
         this.logger.info("Соединение принято от {}.", realIP == null ? "неизвестного ip" : realIP);
         long startTime = System.currentTimeMillis();
+        if("GET".equals(t.getRequestMethod())){
+            this.logger.error("Проверка работоспособности.");
+            this.throwResponse(t, 200, (String)"Health check.", startTime);
+        }
 
         try {
             File root;
@@ -89,6 +92,7 @@ public class ConvertHandler implements HttpHandler {
         this.logger.debug("Считывание начато.");
         InputStream is = t.getRequestBody();
         int l = is.read(preBuffer);
+        this.logger.info("*** *** *** BEFORE *** *** ***");
         if (l > -1) {
             fos = new FileOutputStream(uploadedFileLocation);
             int startFrom = 0;
@@ -134,7 +138,8 @@ public class ConvertHandler implements HttpHandler {
 
             fos.flush();
             this.logger.debug("Считывание закончено.");
-        } else {
+
+        }else {
             this.logger.error("Пустой запрос.");
             this.throwResponse(t, 400, (String)"Incorrect data", startTime);
         }

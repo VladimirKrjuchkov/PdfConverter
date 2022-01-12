@@ -2,6 +2,23 @@ plugins {
     id 'java'
 }
 
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.pb.ppls.converter.Main'
+    }
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDirs "src/main/resources", "src/main/"
+        }
+    }
+}
+
 group 'org.example'
 version '1.0-SNAPSHOT'
 
