@@ -4,6 +4,7 @@ package com.pb.ppls.converter.utils;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.nio.file.Paths;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,10 +14,14 @@ public class CmdLineConverter {
         String filename = file.getName();
         String dir = file.getParent();
         Process pqShell = Runtime.getRuntime().exec("sh");
-        String shellCommand = "unoconv -f pdf -eSelectPdfVersion=1 " + filename;
+//        String shellCommand = "unoconv -f pdf -eSelectPdfVersion=1 " + filename;
         String[] parsedname = filename.split("\\.");
         String basename = parsedname[0];
-
+        logger.info("*** *** *** System.getenv('$UNOSERVER_ADDR'): " + System.getenv("$UNOSERVER_ADDR"));
+        logger.info("*** *** *** System.getenv('$UNOSERVER_PORT'): " + System.getenv("$UNOSERVER_PORT"));
+        logger.info("*** *** *** filename: " + filename);
+        logger.info("*** *** *** basename: " + basename);
+        String shellCommand = "unoconvert --convert-to pdf --interface " + System.getenv("$UNOSERVER_ADDR") + " --port " + System.getenv("$UNOSERVER_PORT") + "./" + filename + "./" + basename;
         try {
             DataOutputStream dos = new DataOutputStream(pqShell.getOutputStream());
             dos.writeBytes("cd " + dir + "\n");
